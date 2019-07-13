@@ -1,9 +1,10 @@
-FROM python:3.7-alpine
+FROM python:3.7-stretch
 ARG CLOUD_SDK_VERSION=251.0.0
 ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
 
 ENV PATH /google-cloud-sdk/bin:$PATH
-RUN apk --no-cache add \
+RUN apt-get -qq update
+RUN apt install -y -qq  \
         curl \
         python \
         py-crcmod \
