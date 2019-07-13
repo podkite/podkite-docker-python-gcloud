@@ -1,24 +1,3 @@
-FROM python:3.7-stretch
-ARG CLOUD_SDK_VERSION=251.0.0
-ENV CLOUD_SDK_VERSION=$CLOUD_SDK_VERSION
-
-ENV PATH /google-cloud-sdk/bin:$PATH
-RUN apt-get -qq update
-RUN apt install -y -qq  \
-        curl \
-        python \
-        py-crcmod \
-        bash \
-        libc6-compat \
-        openssh-client \
-        git \
-        gnupg \
-        postgresql-dev \
-    && curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
-    tar xzf google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
-    rm google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
-    ln -s /lib /lib64 && \
-    gcloud config set core/disable_usage_reporting true && \
-    gcloud config set component_manager/disable_update_check true && \
-    gcloud config set metrics/environment github_docker_image && \
-    gcloud --version
+FROM python:latest
+# Install gcloud
+RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg  add - && apt-get update -y && apt-get install google-cloud-sdk -y
