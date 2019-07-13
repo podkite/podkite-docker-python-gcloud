@@ -6,6 +6,8 @@ ENV PATH /google-cloud-sdk/bin:$PATH
 RUN apk --no-cache add \
         curl \
         python \
+        libpq-dev \
+        python-dev \
         py-crcmod \
         bash \
         libc6-compat \
